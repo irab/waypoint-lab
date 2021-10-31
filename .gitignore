@@ -13,3 +13,8 @@ docker-compose.yml
 
 # Waypoint
 waypoint
+
+# Terraform
+vars.auto.tfvars
+.terraform*
+*tfstate*
