@@ -37,8 +37,11 @@ module "kubernetes-engine" {
   region             = var.region
   network            = module.vpc.network_name
   subnetwork         = module.vpc.subnets_names[0]
+  regional           = false
+  zones              = var.zones
   ip_range_pods      = "pods"
   ip_range_services  = "services"
-  release_channel    = "RAPID"
+  release_channel    = "UNSPECIFIED"
+  remove_default_node_pool = true
 
 }

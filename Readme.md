@@ -22,7 +22,7 @@ Find out how they work
 
 ## Demo
 
-1. Setup github repos for GCP infra and flux - dev and test
-1. Deploy GKE Autopilot to dev and test
-1. Install Waypoint Helm Chart with Flux
+1. Setup github repos for GCP infra and fluxCD [done]
+1. Deploy GKE [done]
+1. Install Waypoint Helm Chart with Flux [done]
 1. Deploy nodejs-app
