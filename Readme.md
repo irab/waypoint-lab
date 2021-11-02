@@ -20,9 +20,58 @@ A release activates a previously staged deployment and opens it to general traff
 
 Find out how they work
 
-## Demo
+## First Steps
 
 1. Setup github repos for GCP infra and fluxCD [done]
 1. Deploy GKE [done]
 1. Install Waypoint Helm Chart with Flux [done]
 1. Deploy nodejs-app
+
+## Building images without docker/containerd
+
+1. Create GCP Artifact Repository:
+
+```bash
+gcloud artifacts repositories create cnb-test \
+    --repository-format=docker \
+    --location=australia-southeast1 \
+    --description="Testing CNB image building"
+```
+
+2. Generate Docker config.json:
+
+```bash
+cat ~/Downloads/ira-sandbox-c040c27d35e5.json | docker login -u _json_key --password-stdin \
+https://australia-southeast1-docker.pkg.dev
+```
+
+3. Deploy a container locally:
+
+```bash
+docker run -it -v $(pwd):/app  paketobuildpacks/builder`
+```
+
+4. Generate Docker config.json:
+
+```bash
+cat ~/Downloads/your_service_account_key_file.json | docker login -u _json_key --password-stdin \
+https://australia-southeast1-docker.pkg.dev
+```
+
+5. Copy config.json to ~/.docker/config.json in the image
+6. Run the following, where '/app' is a mounted volume with your code
+
+```bash
+/cnb/lifecycle/creator -app=/app australia-southeast1-docker.pkg.dev/ira-sandbox/cnb-test/lifecycle-test:latest
+```
+
+### Notes
+
+Pack now supports podman and doesn't need docker installed:
+https://github.com/buildpacks/pack/issues/564#issuecomment-943345649
+
+Cloud Native Buildpacks / Paketo.io in GitLab CI without Docker & pack CLI
+https://blog.codecentric.de/en/2021/10/gitlab-ci-paketo-buildpacks/
+
+Goodbye Dockerfile: Cloud Native Buildpacks with Paketo.io & layered jars for Spring Boot
+https://blog.codecentric.de/en/2020/11/buildpacks-spring-boot/

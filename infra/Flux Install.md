@@ -9,4 +9,19 @@
   --repository=waypoint-gke-flux \
   --path=clusters/dev/waypoint-gke \
   --personal`
-1. 
+
+## Troubleshooting
+
+### Authtokens
+
+Need to be retrieved from k8s secret:
+
+```
+kubectl get secret waypoint-server-token -o jsonpath="{.data.token}" | base64 --decode
+```
+
+### Runner fails to start on Chart redeployment
+
+Due to the PVC still existing, new secrets for the runners are not deployed as a part of the bootstrap process
+
+The PVC needs to be deleted and unbound and the chart redeployed
